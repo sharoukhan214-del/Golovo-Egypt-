@@ -1,39 +1,57 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>البائع - Golovo Egypt</title>
-  <link rel="stylesheet" href="Style.css">
-  <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      background: linear-gradient(to bottom, #dfe6e9, #b2bec3);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 50px 20px;
-      text-align: center;
-      min-height: 100vh;
-    }
-    h1 { color: #2d3436; margin-bottom: 20px; font-size: 32px; }
-    p { font-size: 18px; margin-bottom: 40px; }
-    .btn { padding: 15px 25px; font-size: 18px; border: none; border-radius: 12px; cursor: pointer; color: #fff; margin: 10px 0; transition: 0.3s; }
-    .btn-add { background-color: #00b894; }
-    .btn-add:hover { background-color: #55efc4; }
-    .btn-home { background-color: #0984e3; }
-    .btn-home:hover { background-color: #74b9ff; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تحكم البائع - غولوفو مصر</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px; }
+        .seller-box { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); max-width: 500px; margin: auto; }
+        input, textarea { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; }
+        .btn-publish { background-color: #00b894; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; cursor: pointer; font-size: 18px; }
+        .btn-publish:hover { background-color: #009475; }
+    </style>
 </head>
 <body>
 
-  <h1>🏪 مرحبا بك كبائع</h1>
-  <p>هنا يمكنك إضافة وجباتك الفائضة ومتابعة الطلبات</p>
+    <div class="seller-box">
+        <h2>📢 انشر وجبة جديدة</h2>
+        <p>هنا تقدر تنشر أي وجبة فائضة عندك عشان المشتري يشوفها فوراً.</p>
+        
+        <input type="text" id="mealName" placeholder="اسم الوجبة (مثلاً: نص فرخة وأرز)">
+        <input type="number" id="mealPrice" placeholder="السعر المطلوب (ج.م)">
+        <textarea id="mealDesc" rows="3" placeholder="وصف سريع للوجبة..."></textarea>
+        
+        <button class="btn-publish" onclick="publishNow()">نشر العرض الآن</button>
+    </div>
 
-  <div>
-    <button class="btn btn-add" onclick="alert('هنا سيتم فتح صفحة إضافة الوجبة لاحقاً')">➕ إضافة وجبة</button><br>
-    <button class="btn btn-home" onclick="location.href='index.html'">🏠 العودة للرئيسية</button>
-  </div>
+    <script>
+        function publishNow() {
+            const name = document.getElementById('mealName').value;
+            const price = document.getElementById('mealPrice').value;
+            const desc = document.getElementById('mealDesc').value;
 
+            if(name == "" || price == "") {
+                alert("يا ريت تكتب اسم الوجبة والسعر");
+                return;
+            }
+
+            // تجهيز بيانات الوجبة
+            const newMeal = { name, price, desc };
+
+            // حفظها في قائمة الوجبات (المخزن المشترك)
+            let allMeals = JSON.parse(localStorage.getItem('meals')) || [];
+            allMeals.push(newMeal);
+            localStorage.setItem('meals', JSON.stringify(allMeals));
+
+            alert("تم نشر الوجبة بنجاح! المشتري يقدر يشوفها دلوقتي.");
+            
+            // تصفير الخانات بعد النشر
+            document.getElementById('mealName').value = "";
+            document.getElementById('mealPrice').value = "";
+            document.getElementById('mealDesc').value = "";
+        }
+    </script>
 </body>
 </html>
