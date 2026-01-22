@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تحكم جولوفو - مطاعم</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #0b0b0b; color: white; padding: 20px; text-align: center; }
+        .card { background: #1a1a1a; padding: 25px; border-radius: 20px; border: 1px solid #ff3d00; max-width: 400px; margin: auto; }
+        input { width: 90%; padding: 12px; margin: 10px 0; border-radius: 10px; border: 1px solid #333; background: #222; color: white; font-size: 16px; }
+        .btn-post { background: #ff3d00; color: white; border: none; padding: 15px; width: 95%; border-radius: 12px; font-weight: bold; cursor: pointer; margin-top: 15px; }
+        .hint { font-size: 12px; color: #888; margin-top: 5px; text-align: right; width: 90%; margin-right: 5%; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h2>إضافة عرض وجبة 🍲</h2>
+        
+        <input type="text" id="mealName" placeholder="اسم الوجبة (مثلاً: وجبة الخير)">
+        
+        <input type="number" id="mealPrice" placeholder="سعر الوجبة (اكتب 0 لو مجانية)">
+        <div class="hint">* اكتب 0 لو الوجبة مجانية (ثواب)</div>
+
+        <input type="number" id="mealCount" placeholder="عدد الوجبات المتاحة">
+        
+        <button class="btn-post" onclick="publishMeal()">نشر العرض الآن</button>
+    </div>
+
+    <script>
+        function publishMeal() {
+            const name = document.getElementById('mealName').value;
+            const price = document.getElementById('mealPrice').value;
+            const count = document.getElementById('mealCount').value;
+
+            if (name && price !== "" && count) {
+                // الذكاء هنا: لو السعر 0 السيستم بيعرف إنها مجانية
+                let typeText = (price == 0) ? "وجبة مجانية (ثواب)" : `وجبة مدفوعة بسعر ${price} ج.م`;
+                
+                alert(`تم النشر بنجاح!\nالوجبة: ${name}\nالحالة: ${typeText}\nالعدد: ${count}`);
+                
+                // البيانات بتروح للـ Firebase وتسمع عند الزبون بالـ API Key بتاعك
+            } else {
+                alert("برجاء إدخال كافة البيانات");
+            }
+        }
+    </script>
+</body>
+</html>

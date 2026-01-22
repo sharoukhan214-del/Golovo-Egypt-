@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>إتمام الدفع - جولوفو</title>
+    <style>
+        body { font-family: sans-serif; background: #0b0b0b; color: white; text-align: center; padding: 40px 20px; }
+        .card { background: #1a1a1a; padding: 30px; border-radius: 20px; border: 2px solid #ff3d00; max-width: 400px; margin: auto; }
+        .total-price { font-size: 50px; color: #ff3d00; margin: 20px 0; }
+        .btn { background: #ff3d00; color: white; border: none; padding: 15px; width: 100%; border-radius: 10px; font-size: 20px; cursor: pointer; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>فاتورة الحجز 🧾</h2>
+        <div class="total-price" id="finalAmount">0</div>
+        <p>إجمالي العمولة المستحقة</p>
+        <button class="btn" onclick="triggerPay()">ادفع الآن وتفعيل اللوكيشن</button>
+    </div>
+
+    <script src="main.js"></script>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const price = parseFloat(params.get('price')) || 0;
+        const qty = parseInt(params.get('qty')) || 1;
+
+        // إظهار الحسبة للزبون قبل الدفع
+        let display = (price === 0) ? (15 * qty) : (price * 0.15 * qty);
+        document.getElementById('finalAmount').innerText = display.toFixed(2) + " ج.م";
+
+        function triggerPay() {
+            startPaymentProcess(price, qty, 'customer');
+        }
+    </script>
+</body>
+</html>

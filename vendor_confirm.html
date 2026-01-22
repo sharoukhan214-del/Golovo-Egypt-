@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>تأكيد المطعم - جولوفو</title>
+    <style>
+        body { font-family: sans-serif; background: #0b0b0b; color: white; text-align: center; padding: 40px; }
+        .btn-v { background: #ff3d00; color: white; padding: 15px; border-radius: 10px; border:none; width:100%; cursor:pointer; font-weight:bold; }
+    </style>
+</head>
+<body>
+    <div style="border:2px solid #ff3d00; padding:20px; background:#1a1a1a; border-radius:15px;">
+        <h3>تأكيد حجز الوجبة</h3>
+        <p>يجب دفع عمولة المنصة (15%) لإظهار بيانات الزبون</p>
+        <button class="btn-v" onclick="vendorPay()">ادفع العمولة الآن</button>
+    </div>
+
+    <script src="main.js"></script>
+    <script>
+        function vendorPay() {
+            const price = 100; // مثال لسعر وجبة مدفوعة
+            startPaymentProcess(price, 1, 'vendor');
+        }
+    </script>
+</body>
+</html>
