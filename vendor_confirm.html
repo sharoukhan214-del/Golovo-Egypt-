@@ -1,26 +1,39 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
-    <meta charset="UTF-8">
-    <title>تأكيد المطعم - جولوفو</title>
-    <style>
-        body { font-family: sans-serif; background: #0b0b0b; color: white; text-align: center; padding: 40px; }
-        .btn-v { background: #ff3d00; color: white; padding: 15px; border-radius: 10px; border:none; width:100%; cursor:pointer; font-weight:bold; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>البائع - Golovo Egypt</title>
+  <link rel="stylesheet" href="Style.css">
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(to bottom, #dfe6e9, #b2bec3);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 50px 20px;
+      text-align: center;
+      min-height: 100vh;
+    }
+    h1 { color: #2d3436; margin-bottom: 20px; font-size: 32px; }
+    p { font-size: 18px; margin-bottom: 40px; }
+    .btn { padding: 15px 25px; font-size: 18px; border: none; border-radius: 12px; cursor: pointer; color: #fff; margin: 10px 0; transition: 0.3s; }
+    .btn-add { background-color: #00b894; }
+    .btn-add:hover { background-color: #55efc4; }
+    .btn-home { background-color: #0984e3; }
+    .btn-home:hover { background-color: #74b9ff; }
+  </style>
 </head>
 <body>
-    <div style="border:2px solid #ff3d00; padding:20px; background:#1a1a1a; border-radius:15px;">
-        <h3>تأكيد حجز الوجبة</h3>
-        <p>يجب دفع عمولة المنصة (15%) لإظهار بيانات الزبون</p>
-        <button class="btn-v" onclick="vendorPay()">ادفع العمولة الآن</button>
-    </div>
 
-    <script src="main.js"></script>
-    <script>
-        function vendorPay() {
-            const price = 100; // مثال لسعر وجبة مدفوعة
-            startPaymentProcess(price, 1, 'vendor');
-        }
-    </script>
+  <h1>🏪 مرحبا بك كبائع</h1>
+  <p>هنا يمكنك إضافة وجباتك الفائضة ومتابعة الطلبات</p>
+
+  <div>
+    <button class="btn btn-add" onclick="alert('هنا سيتم فتح صفحة إضافة الوجبة لاحقاً')">➕ إضافة وجبة</button><br>
+    <button class="btn btn-home" onclick="location.href='index.html'">🏠 العودة للرئيسية</button>
+  </div>
+
 </body>
 </html>
