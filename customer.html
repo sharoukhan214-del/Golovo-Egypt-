@@ -1,58 +1,39 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>حجز وجبة - جولوفو</title>
-    <style>
-        body { font-family: sans-serif; background: #0b0b0b; color: white; text-align: center; padding: 20px; }
-        .container { background: #1a1a1a; padding: 25px; border-radius: 20px; border: 1px solid #ff3d00; max-width: 400px; margin: auto; }
-        .price-tag { font-size: 35px; color: #ff3d00; margin: 15px 0; font-weight: bold; }
-        .btn-pay { background: #ff3d00; color: white; border: none; padding: 15px; width: 100%; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; }
-        #success-box { display: none; background: #2e7d32; padding: 20px; border-radius: 20px; margin-top: 20px; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>المشتري - Golovo Egypt</title>
+  <link rel="stylesheet" href="Style.css">
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(to bottom, #dfe6e9, #b2bec3);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 50px 20px;
+      text-align: center;
+      min-height: 100vh;
+    }
+    h1 { color: #2d3436; margin-bottom: 20px; font-size: 32px; }
+    p { font-size: 18px; margin-bottom: 40px; }
+    .btn { padding: 15px 25px; font-size: 18px; border: none; border-radius: 12px; cursor: pointer; color: #fff; margin: 10px 0; transition: 0.3s; }
+    .btn-order { background-color: #0984e3; }
+    .btn-order:hover { background-color: #74b9ff; }
+    .btn-home { background-color: #636e72; }
+    .btn-home:hover { background-color: #b2bec3; }
+  </style>
 </head>
 <body>
 
-    <div id="payment-ui" class="container">
-        <h2>جولوفو مصر 🍲</h2>
-        <p>أنت الآن تحجز "وجبة البركة الشامي"</p>
-        <div class="price-tag">15 ج.م</div>
-        <p style="font-size: 14px; color: #aaa;">(عمولة الحجز لاستلام اللوكيشن)</p>
-        <button class="btn-pay" onclick="payNow()">ادفع 15 جنيه واستلم اللوكيشن</button>
-    </div>
+  <h1>🛒 مرحبا بك كمشتري</h1>
+  <p>هنا يمكنك تصفح الوجبات المتاحة وطلب ما يناسبك</p>
 
-    <div id="success-box" class="container">
-        <h3>✅ مبروك! تم الدفع بنجاح</h3>
-        <p><strong>اسم البائع:</strong> مطعم البركة الشامي</p>
-        <p><strong>العنوان:</strong> شارع التحرير، الدقي</p>
-        <a href="https://maps.google.com" style="color: yellow; font-weight: bold; font-size: 20px;">📍 اضغط هنا لفتح اللوكيشن</a>
-    </div>
+  <div>
+    <button class="btn btn-order" onclick="alert('هنا سيتم إضافة صفحة الطلبات لاحقاً')">اطلب وجبة</button><br>
+    <button class="btn btn-home" onclick="location.href='index.html'">🏠 العودة للرئيسية</button>
+  </div>
 
-    <script>
-        const API_KEY = "ZXlKaGJHY2lPaUpJVXpVeE1pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SmpiR0Z6Y3lJNklrMWxjbU5vWVc1MElpd2ljSEp2Wm1sc1pWOXdheUk2TVRFeU5EUTROaXdpYm1GdFpTSTZJbWx1YVhScFlXd2lmUS44QnhJeEM0SXJtSDI5LUR6ZzltcllDM1JPU0t3c09fTWRqekQwa0Q4LXpoa2RVdFQwZDNvUUVvbXlrYkszd3FWWTc0aXFaOHFDeFZfRHdlY3ZSSGZsQQ==";
-        const INTEGRATION_ID = 5477191; // الرقم اللي في صورتك
-
-        async function payNow() {
-            // 1. طلب توكن الدفع من Paymob
-            try {
-                // ملاحظة: الربط الفعلي يحتاج وسيط (Backend) عشان الأمان
-                // بس للتدريب، ده المسار اللي هيحصل:
-                alert("جارٍ فتح بوابة الدفع الآمنة (فوري / محافظ)...");
-                
-                // هنا بنبعت الـ API Key لـ Paymob عشان نطلع فاتورة بـ 15 جنيه
-                // بمجرد نجاح العملية، السيستم هيخفي صفحة الدفع ويفتح الـ success-box
-                
-                // محاكاة لنجاح العملية (التجربة):
-                setTimeout(() => {
-                    document.getElementById('payment-ui').style.display = 'none';
-                    document.getElementById('success-box').style.display = 'block';
-                }, 2000);
-                
-            } catch (error) {
-                alert("عفواً، حاول مرة أخرى");
-            }
-        }
-    </script>
 </body>
 </html>
