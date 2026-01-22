@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إضافة وجبة جديدة - غولوفو مصر</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .form-container { padding: 20px; max-width: 500px; margin: auto; background: white; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        input, textarea { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; }
+        .publish-btn { background-color: #00b894; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <h2>نشر عرض وجبة فائضة 🥘</h2>
+        <input type="text" id="mealName" placeholder="اسم الوجبة (مثلاً: وجبة كشري عائلي)">
+        <input type="number" id="mealPrice" placeholder="السعر قبل الخصم">
+        <input type="number" id="offerPrice" placeholder="سعر العرض الحالي">
+        <textarea id="mealDesc" placeholder="وصف الوجبة وحالتها..."></textarea>
+        <input type="file" id="mealImage" accept="image/*">
+        
+        <button class="publish-btn" onclick="publishMeal()">نشر العرض الآن</button>
+    </div>
+
+    <script>
+        function publishMeal() {
+            const meal = {
+                name: document.getElementById('mealName').value,
+                price: document.getElementById('offerPrice').value,
+                desc: document.getElementById('mealDesc').value
+            };
+            
+            // تنبيه مؤقت للمستخدم
+            alert("تم نشر الوجبة بنجاح: " + meal.name);
+            
+            // هنا في المستقبل هنربط بـ Firebase عشان البيانات تروح للمشتري بجد
+            window.location.href = "Customer.html";
+        }
+    </script>
+</body>
+</html>
