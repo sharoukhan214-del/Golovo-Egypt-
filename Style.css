@@ -1,66 +1,38 @@
-/* نظام الألوان والهوية */
-:root {
-    --main-green: #00b894;
-    --main-orange: #ff7675;
-    --dark-grey: #2d3436;
-    --light-bg: #f0f2f5;
-    --shadow: 0 4px 15px rgba(0,0,0,0.1);
-}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الدفع - غولوفو مصر</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-body {
-    background-color: var(--light-bg);
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    direction: rtl;
-    min-height: 100vh;
-}
+    <div class="app-container">
+        <div class="card" style="text-align:center; margin-top:50px; border-top: 10px solid #00b894;">
+            <div style="font-size:60px; margin-bottom:20px;">💳</div>
+            <h2 style="color: #2d3436; margin-bottom: 5px;">تأكيد الحجز</h2>
+            <p style="color: #636e72; font-size: 14px;">أنت على وشك الاستمتاع بوجبة رائعة</p>
+            
+            <div style="background: #f8f9fa; padding: 25px; border-radius: 15px; margin: 25px 0;">
+                <p style="margin: 0; color: #b2bec3;">إجمالي المبلغ</p>
+                <div style="display: flex; justify-content: center; align-items: baseline;">
+                    <span style="font-size: 45px; font-weight: bold; color: #ff7675;">15.00</span>
+                    <span style="font-size: 20px; color: #ff7675; margin-right: 5px;">ج.م</span>
+                </div>
+            </div>
 
-/* الحاوية الرئيسية لكل صفحة */
-.app-container {
-    width: 100%;
-    max-width: 450px; /* حجم شاشة الموبايل */
-    background: white;
-    min-height: 100vh;
-    box-shadow: var(--shadow);
-    padding: 20px;
-    box-sizing: border-box;
-}
+            <ul style="text-align: right; list-style: none; padding: 0; color: #636e72; font-size: 14px; margin-bottom: 25px;">
+                <li style="margin-bottom: 10px;">✅ وجبة طازجة</li>
+                <li style="margin-bottom: 10px;">✅ توصيل سريع</li>
+                <li style="margin-bottom: 10px;">✅ دعم فني 24/7</li>
+            </ul>
 
-/* شكل الكروت (الوجبات / الفواتير) */
-.card {
-    background: white;
-    border-radius: 20px;
-    padding: 20px;
-    margin-bottom: 20px;
-    border: 1px solid #eee;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-}
+            <button class="btn-main" onclick="alert('جاري التوجيه لبوابة الدفع...')">ادفع الآن</button>
+            
+            <p style="margin-top: 20px; font-size: 12px; color: #bdc3c7;">بضغطك على ادفع الآن، أنت توافق على الشروط والأحكام</p>
+        </div>
+    </div>
 
-/* الأزرار الاحترافية */
-.btn-main {
-    background: var(--main-green);
-    color: white;
-    border: none;
-    padding: 15px;
-    border-radius: 12px;
-    width: 100%;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.btn-main:active { transform: scale(0.98); }
-
-/* مدخلات البيانات */
-input, textarea {
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    border: 1px solid #dfe6e9;
-    border-radius: 10px;
-    background: #f9f9f9;
-}
+</body>
+</html>
