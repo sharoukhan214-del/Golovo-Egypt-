@@ -1,3 +1,56 @@
+/* الألوان الأساسية: أخضر غولوفو وبرتقالي فاتح للشهية */
+:root {
+    --primary-color: #00b894;
+    --secondary-color: #ff7675;
+    --bg-color: #f8f9fa;
+    --card-shadow: 0 10px 20px rgba(0,0,0,0.08);
+}
+
 body {
-    font-size: 15pt;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    margin: 0;
+    padding: 0;
+    color: #2d3436;
+}
+
+/* تحسين شكل الكروت */
+.meal-card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    box-shadow: var(--card-shadow);
+    margin-bottom: 20px;
+}
+
+.meal-card:hover {
+    transform: translateY(-5px);
+}
+
+/* الأزرار بشكل احترافي */
+button, .btn {
+    border-radius: 12px !important;
+    padding: 12px 25px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+/* الحاويات */
+.container {
+    padding: 20px;
+    max-width: 600px;
+    margin: auto;
+}
+
+/* شكل الفاتورة في صفحة الدفع */
+.invoice-box {
+    background: #fff;
+    border-top: 5px solid var(--secondary-color);
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
 }
