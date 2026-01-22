@@ -2,22 +2,71 @@
 <html lang="ar">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Golovo Egypt</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="Style.css">
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(to bottom, #ffeaa7, #fab1a0);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 0 20px;
+      text-align: center;
+    }
+    h1 {
+      color: #2d3436;
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+    p {
+      font-size: 18px;
+      margin-bottom: 40px;
+      color: #636e72;
+    }
+    .btn-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      width: 100%;
+      max-width: 300px;
+    }
+    .btn {
+      padding: 20px;
+      font-size: 20px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      color: #fff;
+      transition: 0.3s;
+    }
+    .btn-buy {
+      background-color: #0984e3;
+    }
+    .btn-buy:hover {
+      background-color: #74b9ff;
+    }
+    .btn-sell {
+      background-color: #00b894;
+    }
+    .btn-sell:hover {
+      background-color: #55efc4;
+    }
+  </style>
 </head>
 <body>
 
-  <h1>Golovo Egypt</h1>
-  <p>بيع أو شراء الطعام الفائض</p>
+  <h1>🍽️ Golovo Egypt</h1>
+  <p>بيع أو شراء الطعام الفائض بسهولة وسرعة</p>
 
-  <a href="customer.html">
-    <button>🧑‍🍳 أنا مشتري</button>
-  </a>
-
-  <a href="vendor_confirm.html">
-    <button>🏪 أنا بائع</button>
-  </a>
+  <div class="btn-container">
+    <a href="Customer.html"><button class="btn btn-buy">🧑‍🍳 أنا مشتري</button></a>
+    <a href="Vendor_confirm.html"><button class="btn btn-sell">🏪 أنا بائع</button></a>
+  </div>
 
 </body>
 </html>
-
