@@ -1,39 +1,46 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>المشتري - Golovo Egypt</title>
-  <link rel="stylesheet" href="Style.css">
-  <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      background: linear-gradient(to bottom, #dfe6e9, #b2bec3);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 50px 20px;
-      text-align: center;
-      min-height: 100vh;
-    }
-    h1 { color: #2d3436; margin-bottom: 20px; font-size: 32px; }
-    p { font-size: 18px; margin-bottom: 40px; }
-    .btn { padding: 15px 25px; font-size: 18px; border: none; border-radius: 12px; cursor: pointer; color: #fff; margin: 10px 0; transition: 0.3s; }
-    .btn-order { background-color: #0984e3; }
-    .btn-order:hover { background-color: #74b9ff; }
-    .btn-home { background-color: #636e72; }
-    .btn-home:hover { background-color: #b2bec3; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عروض الوجبات - غولوفو مصر</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .meals-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; padding: 20px; }
+        .meal-card { background: white; border-radius: 15px; padding: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); text-align: center; }
+        .meal-card img { width: 100%; border-radius: 10px; height: 150px; object-fit: cover; }
+        .price-tag { color: #e74c3c; font-weight: bold; font-size: 1.2em; }
+        .buy-btn { background: #0984e3; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 10px; }
+    </style>
 </head>
 <body>
+    <h1 style="text-align: center;">🍲 الوجبات المتاحة الآن</h1>
+    <div id="mealsContainer" class="meals-grid">
+        </div>
 
-  <h1>🛒 مرحبا بك كمشتري</h1>
-  <p>هنا يمكنك تصفح الوجبات المتاحة وطلب ما يناسبك</p>
+    <script>
+        function loadMeals() {
+            const container = document.getElementById('mealsContainer');
+            const savedMeals = JSON.parse(localStorage.getItem('meals')) || [];
 
-  <div>
-    <button class="btn btn-order" onclick="alert('هنا سيتم إضافة صفحة الطلبات لاحقاً')">اطلب وجبة</button><br>
-    <button class="btn btn-home" onclick="location.href='index.html'">🏠 العودة للرئيسية</button>
-  </div>
+            if (savedMeals.length === 0) {
+                container.innerHTML = "<p style='text-align:center;'>لا توجد عروض متاحة حالياً.</p>";
+                return;
+            }
 
+            container.innerHTML = savedMeals.map(meal => `
+                <div class="meal-card">
+                    <img src="https://via.placeholder.com/250x150?text=الوجبة" alt="meal">
+                    <h3>${meal.name}</h3>
+                    <p>${meal.desc}</p>
+                    <p class="price-tag">${meal.price} ج.م</p>
+                    <button class="buy-btn" onclick="location.href='pay.html'">اطلب الآن</button>
+                </div>
+            `).join('');
+        }
+
+        // تشغيل الدالة أول ما الصفحة تفتح
+        window.onload = loadMeals;
+    </script>
 </body>
 </html>
