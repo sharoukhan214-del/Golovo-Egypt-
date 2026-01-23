@@ -3,74 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إضافة وجبة جديدة - غولوفو مصر</title>
+    <title>نشر وجبة - غولوفو مصر</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        .form-container { padding: 20px; max-width: 500px; margin: auto; background: white; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        input, textarea { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; }
-        .publish-btn { background-color: #00b894; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; }
-    </style>
 </head>
 <body>
 
-    <div class="form-container">
-        <h2>نشر عرض وجبة فائضة 🥘</h2>
-        <input type="text" id="mealName" placeholder="اسم الوجبة (مثلاً: وجبة كشري عائلي)">
-        <input type="number" id="mealPrice" placeholder="السعر قبل الخصم">
-        <input type="number" id="offerPrice" placeholder="سعر العرض الحالي">
-        <textarea id="mealDesc" placeholder="وصف الوجبة وحالتها..."></textarea>
-        <input type="file" id="mealImage" accept="image/*">
-        
-        <button class="publish-btn" onclick="publishMeal()">نشر العرض الآن</button>
+    <div class="app-container">
+        <div class="card">
+            <h2>📢 انشر وجبة جديدة</h2>
+            
+            <input type="text" id="mealName" placeholder="اسم الوجبة (مثلاً: وجبات فندق فائضة)">
+            
+            <select id="offerType" onchange="checkPriceStatus()" style="width:100%; padding:15px; margin:10px 0; border-radius:12px; border:1px solid #ddd; font-size:16px;">
+                <option value="paid">عرض بفلوس (عمولة 15% مقدمًا)</option>
+                <option value="free">عرض مجاني (نشر فوري بدون عمولة)</option>
+            </select>
+
+            <input type="number" id="mealPrice" placeholder="السعر للوجبة الواحدة (ج.م)">
+            <input type="number" id="mealQty" placeholder="عدد الوجبات المتاحة">
+            
+            <div id="commBox" style="background:#fff3cd; padding:15px; border-radius:12px; margin:15px 0; border:1px solid #ffeeba; display:block;">
+                <p style="margin:0; font-size:14px; color:#856404;">إجمالي العمولة المطلوبة للنشر:</p>
+                <p style="margin:5px 0; font-size:22px; font-weight:bold; color:#d63031;"><span id="calcComm">0</span> ج.م</p>
+            </div>
+
+            <button id="mainBtn" class="btn-main" onclick="processOrder()" style="background:#e67e22;">ادفع العمولة وانشر الآن</button>
+        </div>
     </div>
 
     <script>
-        function publishMeal() {
-            const meal = {
-                name: document.getElementById('mealName').value,
-                price: document.getElementById('offerPrice').value,
-                desc: document.getElementById('mealDesc').value
-            };
-            
-            // تنبيه مؤقت للمستخدم
-            alert("تم نشر الوجبة بنجاح: " + meal.name);
-            
-            // هنا في المستقبل هنربط بـ Firebase عشان البيانات تروح للمشتري بجد
-            window.location.href = "Customer.html";
+        // تحديث الحسابات تلقائياً
+        document.addEventListener('input', function() {
+            let p = document.getElementById('mealPrice').value || 0;
+            let q = document.getElementById('mealQty').value || 0;
+            let comm = (p * q) * 0.15;
+            document.getElementById('calcComm').innerText = comm.toFixed(2);
+        });
+
+        function checkPriceStatus() {
+            let type = document.getElementById('offerType').value;
+            let priceInput = document.getElementById('mealPrice');
+            let box = document.getElementById('commBox');
+            let btn = document.getElementById('mainBtn');
+
+            if(type === 'free') {
+                priceInput.value = 0;
+                priceInput.disabled = true;
+                box.style.display = 'none';
+                btn.innerText = "نشر العرض مجاناً فوراً";
+                btn.style.background = "#2ecc71";
+            } else {
+                priceInput.disabled = false;
+                box.style.display = 'block';
+                btn.innerText = "ادفع العمولة وانشر الآن";
+                btn.style.background = "#e67e22";
+            }
+        }
+
+        function processOrder() {
+            let type = document.getElementById('offerType').value;
+            let name = document.getElementById('mealName').value;
+            let qty = document.getElementById('mealQty').value;
+
+            if(!name || !qty) {
+                alert("من فضلك كمل البيانات (الاسم والعدد)");
+                return;
+            }
+
+            if(type === 'paid') {
+                let finalComm = document.getElementById('calcComm').innerText;
+                alert("سيتم تحويلك لدفع " + finalComm + " ج.م عمولة النشر");
+                window.location.href = "pay_commission.html?amount=" + finalComm;
+            } else {
+                alert("شكراً لمساهمتك! تم نشر العرض المجاني.");
+                // كود الحفظ الفعلي هنا
+            }
         }
     </script>
 </body>
 </html>
-<div class="app-container">
-    <h2>انشر عرضك الجديد 📢</h2>
-    <input type="text" id="mealName" placeholder="اسم الوجبة (مثلاً: وجبات إفطار فائضة)">
-    <input type="number" id="mealPrice" placeholder="السعر (اكتب 0 لو مجانية)">
-    <input type="number" id="mealQty" placeholder="الكمية المتاحة (عدد الوجبات)">
-    
-    <button class="btn-main" onclick="publishNow()">نشر العرض الآن</button>
-</div>
-
-<script>
-function publishNow() {
-    const name = document.getElementById('mealName').value;
-    const price = document.getElementById('mealPrice').value || 0;
-    const qty = document.getElementById('mealQty').value;
-
-    if (!name || !qty) {
-        alert("من فضلك ادخل اسم الوجبة والكمية");
-        return;
-    }
-
-    const newMeal = {
-        id: Date.now(),
-        name: name,
-        price: parseFloat(price),
-        quantity: parseInt(qty)
-    };
-
-    let allMeals = JSON.parse(localStorage.getItem('meals')) || [];
-    allMeals.push(newMeal);
-    localStorage.setItem('meals', JSON.stringify(allMeals));
-    alert("تم النشر بنجاح!");
-}
-</script>
