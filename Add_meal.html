@@ -1,41 +1,52 @@
-<div class="card">
-    <h2>نشر وجبة جديدة</h2>
-    <input type="text" id="mealName" placeholder="اسم الوجبة">
-    
-    <select id="isFree" onchange="updateView()">
-        <option value="paid">وجبة بفلوس (عمولة 15%)</option>
-        <option value="free">وجبة مجانية (خير)</option>
-    </select>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <link rel="stylesheet" href="Style.css">
+    <title>إضافة وجبة</title>
+</head>
+<body>
+    <div class="container">
+        <h2>نشر وجبة فائضة</h2>
+        <input type="text" id="mealName" placeholder="اسم الوجبة (مثلاً: وجبات إفطار فندقية)">
+        
+        <select id="mealType" onchange="checkFree()">
+            <option value="paid">وجبة للبيع (عمولة 15%)</option>
+            <option value="free">وجبة مجانية (بدون عمولة للبائع)</option>
+        </select>
 
-    <div id="priceDiv">
-        <input type="number" id="mealPrice" placeholder="سعر الوجبة" oninput="showSellerNote()">
+        <div id="priceSection">
+            <input type="number" id="mealPrice" placeholder="سعر الوجبة الواحدة" oninput="calculateNet()">
+            <p id="sellerNote" style="color: blue; font-size: 14px;"></p>
+        </div>
+
+        <input type="number" id="mealQty" placeholder="العدد المتاح (مثلاً 100 وجبة)">
+        
+        <button onclick="publish()" class="btn-main">نشر العرض الآن</button>
     </div>
-    
-    <input type="number" id="mealQty" placeholder="عدد الوجبات المتاحة">
-    
-    <p id="sellerNote" style="font-size: 14px; color: #666;"></p>
 
-    <button onclick="saveMealToStorage()" class="btn-main">نشر العرض</button>
-</div>
+    <script>
+        function checkFree() {
+            const type = document.getElementById('mealType').value;
+            document.getElementById('priceSection').style.display = (type === 'free') ? 'none' : 'block';
+        }
 
-<script>
-function updateView() {
-    const type = document.getElementById('isFree').value;
-    document.getElementById('priceDiv').style.display = (type === 'free') ? 'none' : 'block';
-    showSellerNote();
-}
+        function calculateNet() {
+            let p = parseFloat(document.getElementById('mealPrice').value) || 0;
+            if(p > 0) {
+                let net = p - (p * 0.15); // البائع بيقبض 85%
+                document.getElementById('sellerNote').innerText = `ستستلم من العميل: ${net.toFixed(2)} ج.م للوجبة.`;
+            }
+        }
 
-function showSellerNote() {
-    const price = document.getElementById('mealPrice').value || 0;
-    const note = document.getElementById('sellerNote');
-    if(price > 0) {
-        let net = price - (price * 0.15);
-        note.innerHTML = `ستستلم من العميل <b>${net.toFixed(2)} ج.م</b> للوجبة (بعد خصم 15%).`;
-    } else { note.innerText = ""; }
-}
-
-function saveMealToStorage() {
-    // كود الحفظ اللي بينقل البيانات لصفحة المشتري
-    alert("تم النشر بنجاح!");
-}
-</script>
+        function publish() {
+            const data = {
+                name: document.getElementById('mealName').value,
+                price: document.getElementById('mealType').value === 'free' ? 0 : document.getElementById('mealPrice').value,
+                qty: document.getElementById('mealQty').value
+            };
+            localStorage.setItem('currentMeal', JSON.stringify(data)); // حفظ مؤقت للتجربة
+            alert("تم النشر بنجاح!");
+        }
+    </script>
+</body>
+</html>
