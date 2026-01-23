@@ -41,3 +41,36 @@
     </script>
 </body>
 </html>
+<div class="app-container">
+    <h2>انشر عرضك الجديد 📢</h2>
+    <input type="text" id="mealName" placeholder="اسم الوجبة (مثلاً: وجبات إفطار فائضة)">
+    <input type="number" id="mealPrice" placeholder="السعر (اكتب 0 لو مجانية)">
+    <input type="number" id="mealQty" placeholder="الكمية المتاحة (عدد الوجبات)">
+    
+    <button class="btn-main" onclick="publishNow()">نشر العرض الآن</button>
+</div>
+
+<script>
+function publishNow() {
+    const name = document.getElementById('mealName').value;
+    const price = document.getElementById('mealPrice').value || 0;
+    const qty = document.getElementById('mealQty').value;
+
+    if (!name || !qty) {
+        alert("من فضلك ادخل اسم الوجبة والكمية");
+        return;
+    }
+
+    const newMeal = {
+        id: Date.now(),
+        name: name,
+        price: parseFloat(price),
+        quantity: parseInt(qty)
+    };
+
+    let allMeals = JSON.parse(localStorage.getItem('meals')) || [];
+    allMeals.push(newMeal);
+    localStorage.setItem('meals', JSON.stringify(allMeals));
+    alert("تم النشر بنجاح!");
+}
+</script>
