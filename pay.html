@@ -1,81 +1,26 @@
-<div class="app-container">
-    <div class="card">
-        <h2>نشر وجبة جديدة 📢</h2>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <link rel="stylesheet" href="Style.css">
+    <title>تأكيد الدفع</title>
+</head>
+<body>
+    <div class="container">
+        <h2>تأكيد دفع العمولة</h2>
+        <p>المبلغ المطلوب تحويله: <b id="finalAmount">0</b> ج.م</p>
+        <p>حول على رقم فودافون كاش: 01xxxxxxxxx</p>
         
-        <input type="text" id="mealName" placeholder="اسم الوجبة">
-        
-        <select id="offerType" onchange="checkType()" style="width:100%; padding:12px; margin:10px 0; border-radius:10px;">
-            <option value="paid">عرض بفلوس (دفع عمولة 15% مقدماً)</option>
-            <option value="free">عرض مجاني (نشر فوري بدون عمولة)</option>
-        </select>
-
-        <input type="number" id="mealPrice" placeholder="سعر الوجبة الواحدة">
-        <input type="number" id="mealQty" placeholder="عدد الوجبات المتاحة">
-        
-        <div id="paymentBox" style="background:#fff3cd; padding:15px; border-radius:12px; margin:15px 0; display:none; border: 1px solid #ffeeba;">
-            <p style="margin:0; font-size:14px;">إجمالي مبيعاتك المتوقعة: <span id="totalSales">0</span> ج.م</p>
-            <p style="margin:5px 0; font-weight:bold; color:#d63031;">عمولة التطبيق المطلوبة (15%): <span id="commissionAmount">0</span> ج.م</p>
-        </div>
-
-        <button id="actionBtn" class="btn-main" onclick="handleAction()">نشر العرض الآن</button>
+        <button onclick="finish()" class="btn-main">تم التحويل (تحديث العداد)</button>
     </div>
-</div>
 
-<script>
-function checkType() {
-    const type = document.getElementById('offerType').value;
-    const priceInput = document.getElementById('mealPrice');
-    const paymentBox = document.getElementById('paymentBox');
-    const actionBtn = document.getElementById('actionBtn');
+    <script>
+        document.getElementById('finalAmount').innerText = localStorage.getItem('finalCommission');
 
-    if(type === 'free') {
-        priceInput.value = 0;
-        priceInput.disabled = true;
-        paymentBox.style.display = 'none';
-        actionBtn.innerText = "نشر العرض مجاناً";
-        actionBtn.style.background = "#2ecc71";
-    } else {
-        priceInput.disabled = false;
-        paymentBox.style.display = 'block';
-        actionBtn.innerText = "ادفع العمولة وانشر العرض";
-        actionBtn.style.background = "#e67e22";
-    }
-}
-
-// تحديث الحسابات لحظياً
-document.addEventListener('input', function() {
-    const price = parseFloat(document.getElementById('mealPrice').value) || 0;
-    const qty = parseInt(document.getElementById('mealQty').value) || 0;
-    const total = price * qty;
-    const comm = total * 0.15;
-
-    document.getElementById('totalSales').innerText = total.toFixed(2);
-    document.getElementById('commissionAmount').innerText = comm.toFixed(2);
-});
-
-function handleAction() {
-    const type = document.getElementById('offerType').value;
-    const name = document.getElementById('mealName').value;
-    const qty = document.getElementById('mealQty').value;
-
-    if(!name || !qty) {
-        alert("اكمل بيانات الوجبة والعدد أولاً");
-        return;
-    }
-
-    if(type === 'paid') {
-        const comm = (document.getElementById('mealPrice').value * qty) * 0.15;
-        // هنا بنحول البائع لصفحة دفع العمولة
-        alert("سيتم تحويلك الآن لدفع عمولة قدرها " + comm.toFixed(2) + " ج.م لتفعيل العرض");
-        location.href = "pay_commission.html?amount=" + comm; 
-    } else {
-        // لو مجاني ينشر علطول
-        saveMeal();
-        alert("تم نشر عرضك المجاني بنجاح! شكراً لك.");
-    }
-}
-
-function saveMeal() {
-    // كود الحفظ في الـ LocalStorage اللي عملناه قبل كدة
-}
-</script>
+        function finish() {
+            alert("شكراً لك! تم حجز الوجبات ونقصها من العداد.");
+            // هنا المفروض نرجع للرئيسية والعداد ينقص فعلياً
+            window.location.href = "index.html";
+        }
+    </script>
+</body>
+</html>
