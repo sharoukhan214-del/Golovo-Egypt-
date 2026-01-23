@@ -1,51 +1,43 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>انشر وجبة جديدة</title>
     <link rel="stylesheet" href="Style.css">
-    <title>إضافة وجبة</title>
 </head>
 <body>
-    <div class="container">
-        <h2>نشر وجبة فائضة</h2>
-        <input type="text" id="mealName" placeholder="اسم الوجبة (مثلاً: وجبات إفطار فندقية)">
-        
-        <select id="mealType" onchange="checkFree()">
-            <option value="paid">وجبة للبيع (عمولة 15%)</option>
-            <option value="free">وجبة مجانية (بدون عمولة للبائع)</option>
-        </select>
+    <div class="container" style="max-width: 500px; margin: 50px auto; padding: 20px; background: white; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+        <h2 style="text-align: center;">انشر وجبة جديدة 📢</h2>
+        <p style="text-align: center; color: #666;">هنا تقدر تنشر أي وجبة فائضة عندك عشان المشتري يشوفها فوراً.</p>
 
-        <div id="priceSection">
-            <input type="number" id="mealPrice" placeholder="سعر الوجبة الواحدة" oninput="calculateNet()">
-            <p id="sellerNote" style="color: blue; font-size: 14px;"></p>
-        </div>
-
-        <input type="number" id="mealQty" placeholder="العدد المتاح (مثلاً 100 وجبة)">
+        <input type="text" id="mealName" placeholder="اسم الوجبة (مثلاً: نص فرخة وأرز)" style="width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 10px;">
         
-        <button onclick="publish()" class="btn-main">نشر العرض الآن</button>
+        <input type="number" id="mealPrice" placeholder="السعر المطلوب (ج.م) - ضع 0 للمجاني" style="width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 10px;" oninput="showCommission()">
+        <p id="commissionNote" style="font-size: 13px; color: #007bff; margin: 0 5px;"></p>
+
+        <input type="number" id="mealQty" placeholder="عدد الوجبات المتاحة (العداد)" style="width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 10px;">
+
+        <textarea id="mealDesc" placeholder="وصف سريع للوجبة . . ." style="width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 10px; height: 100px;"></textarea>
+
+        <button onclick="publishMeal()" style="width: 100%; padding: 15px; background-color: #009688; color: white; border: none; border-radius: 10px; font-size: 18px; cursor: pointer;">نشر العرض الآن</button>
     </div>
 
     <script>
-        function checkFree() {
-            const type = document.getElementById('mealType').value;
-            document.getElementById('priceSection').style.display = (type === 'free') ? 'none' : 'block';
-        }
-
-        function calculateNet() {
-            let p = parseFloat(document.getElementById('mealPrice').value) || 0;
-            if(p > 0) {
-                let net = p - (p * 0.15); // البائع بيقبض 85%
-                document.getElementById('sellerNote').innerText = `ستستلم من العميل: ${net.toFixed(2)} ج.م للوجبة.`;
+        function showCommission() {
+            let price = parseFloat(document.getElementById('mealPrice').value) || 0;
+            let note = document.getElementById('commissionNote');
+            if (price > 0) {
+                let net = price - (price * 0.15);
+                note.innerHTML = `سيصلك من العميل ${net.toFixed(2)} ج.م (بعد خصم 15% عمولة).`;
+            } else {
+                note.innerText = "هذه الوجبة ستعرض مجاناً.";
             }
         }
 
-        function publish() {
-            const data = {
-                name: document.getElementById('mealName').value,
-                price: document.getElementById('mealType').value === 'free' ? 0 : document.getElementById('mealPrice').value,
-                qty: document.getElementById('mealQty').value
-            };
-            localStorage.setItem('currentMeal', JSON.stringify(data)); // حفظ مؤقت للتجربة
-            alert("تم النشر بنجاح!");
+        function publishMeal() {
+            // كود حفظ البيانات وإرسالها لصفحة العميل
+            alert("تم نشر العرض بنجاح!");
         }
     </script>
 </body>
