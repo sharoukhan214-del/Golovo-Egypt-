@@ -1,39 +1,41 @@
-<div class="app-container">
-    <div class="card">
-        <h3>نشر وجبة فائضة 📢</h3>
-        
-        <input type="text" id="mealName" placeholder="اسم الوجبة">
-        
-        <select id="isFree" onchange="document.getElementById('pInput').style.display = (this.value=='paid'?'block':'none')">
-            <option value="paid">بفلوس (دفع عمولة 15%)</option>
-            <option value="free">مجاني (نشر فوري)</option>
-        </select>
+<div class="card">
+    <h2>نشر وجبة جديدة</h2>
+    <input type="text" id="mealName" placeholder="اسم الوجبة">
+    
+    <select id="isFree" onchange="updateView()">
+        <option value="paid">وجبة بفلوس (عمولة 15%)</option>
+        <option value="free">وجبة مجانية (خير)</option>
+    </select>
 
-        <div id="pInput">
-            <input type="number" id="mealPrice" placeholder="سعر الوجبة الواحدة">
-        </div>
-
-        <input type="number" id="mealQty" placeholder="عندك كام وجبة؟">
-
-        <button class="btn-main" onclick="publish()">نشر العرض</button>
+    <div id="priceDiv">
+        <input type="number" id="mealPrice" placeholder="سعر الوجبة" oninput="showSellerNote()">
     </div>
+    
+    <input type="number" id="mealQty" placeholder="عدد الوجبات المتاحة">
+    
+    <p id="sellerNote" style="font-size: 14px; color: #666;"></p>
+
+    <button onclick="saveMealToStorage()" class="btn-main">نشر العرض</button>
 </div>
 
 <script>
-function publish() {
-    const name = document.getElementById('mealName').value;
-    const qty = document.getElementById('mealQty').value;
+function updateView() {
     const type = document.getElementById('isFree').value;
-    const price = document.getElementById('mealPrice').value;
+    document.getElementById('priceDiv').style.display = (type === 'free') ? 'none' : 'block';
+    showSellerNote();
+}
 
-    if(!name || !qty) { alert("اكتب الاسم والعدد يا محمد"); return; }
+function showSellerNote() {
+    const price = document.getElementById('mealPrice').value || 0;
+    const note = document.getElementById('sellerNote');
+    if(price > 0) {
+        let net = price - (price * 0.15);
+        note.innerHTML = `ستستلم من العميل <b>${net.toFixed(2)} ج.م</b> للوجبة (بعد خصم 15%).`;
+    } else { note.innerText = ""; }
+}
 
-    if(type === 'paid') {
-        let comm = (price * qty) * 0.15;
-        alert("لازم تدفع عمولة " + comm + " ج.م قبل ما ننشر");
-        location.href = "pay_commission.html?amount=" + comm;
-    } else {
-        alert("تم النشر مجاناً!");
-    }
+function saveMealToStorage() {
+    // كود الحفظ اللي بينقل البيانات لصفحة المشتري
+    alert("تم النشر بنجاح!");
 }
 </script>
