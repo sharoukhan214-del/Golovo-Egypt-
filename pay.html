@@ -66,3 +66,50 @@
     </script>
 </body>
 </html>
+<div class="container">
+    <div class="status-icon">🧾</div>
+    <h1>ملخص الحجز</h1>
+    
+    <div class="info-card">
+        <p id="mealNameDisplay" style="font-weight:bold;"></p>
+        <p id="priceBreakdown"></p>
+        <hr>
+        <p style="margin: 0; color: #636e72;">الإجمالي المطلوب (شامل العمولة)</p>
+        <div class="price-text" id="totalAmount">0.00 <span style="font-size: 18px;">ج.م</span></div>
+    </div>
+
+    <button class="btn-confirm" onclick="finishBooking()">تأكيد الدفع والحجز</button>
+</div>
+
+<script>
+// تخيل إننا بعتنا بيانات الوجبة للصفحة دي
+let selectedMeal = { name: "وجبة فندق رويال", price: 100 }; // مثال
+
+function calculateBill() {
+    let price = selectedMeal.price;
+    let commission = 0;
+    let total = 0;
+
+    if (price === 0) {
+        // وجبة مجانية: المشتري يدفع 15 ج.م عمولة رمزية
+        commission = 15; 
+        total = 15;
+        document.getElementById('priceBreakdown').innerText = "سعر الوجبة: مجانًا 🎁 + عمولة ثابتة 15 ج.م";
+    } else {
+        // وجبة بفلوس: 15% عمولة
+        commission = price * 0.15;
+        total = price + commission;
+        document.getElementById('priceBreakdown').innerText = `سعر الوجبة: ${price} + عمولة (15%): ${commission.toFixed(2)}`;
+    }
+
+    document.getElementById('mealNameDisplay').innerText = selectedMeal.name;
+    document.getElementById('totalAmount').innerHTML = total.toFixed(2) + " <span style='font-size: 18px;'>ج.م</span>";
+}
+
+function finishBooking() {
+    alert("تم خصم وجبة من العداد وتأكيد حجزك!");
+    window.location.href = "success.html"; 
+}
+
+window.onload = calculateBill;
+</script>
