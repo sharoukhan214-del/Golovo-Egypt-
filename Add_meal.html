@@ -1,84 +1,39 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نشر وجبة - غولوفو مصر</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+<div class="app-container">
+    <div class="card">
+        <h3>نشر وجبة فائضة 📢</h3>
+        
+        <input type="text" id="mealName" placeholder="اسم الوجبة">
+        
+        <select id="isFree" onchange="document.getElementById('pInput').style.display = (this.value=='paid'?'block':'none')">
+            <option value="paid">بفلوس (دفع عمولة 15%)</option>
+            <option value="free">مجاني (نشر فوري)</option>
+        </select>
 
-    <div class="app-container">
-        <div class="card">
-            <h2>📢 انشر وجبة جديدة</h2>
-            
-            <input type="text" id="mealName" placeholder="اسم الوجبة (مثلاً: وجبات فندق فائضة)">
-            
-            <select id="offerType" onchange="checkPriceStatus()" style="width:100%; padding:15px; margin:10px 0; border-radius:12px; border:1px solid #ddd; font-size:16px;">
-                <option value="paid">عرض بفلوس (عمولة 15% مقدمًا)</option>
-                <option value="free">عرض مجاني (نشر فوري بدون عمولة)</option>
-            </select>
-
-            <input type="number" id="mealPrice" placeholder="السعر للوجبة الواحدة (ج.م)">
-            <input type="number" id="mealQty" placeholder="عدد الوجبات المتاحة">
-            
-            <div id="commBox" style="background:#fff3cd; padding:15px; border-radius:12px; margin:15px 0; border:1px solid #ffeeba; display:block;">
-                <p style="margin:0; font-size:14px; color:#856404;">إجمالي العمولة المطلوبة للنشر:</p>
-                <p style="margin:5px 0; font-size:22px; font-weight:bold; color:#d63031;"><span id="calcComm">0</span> ج.م</p>
-            </div>
-
-            <button id="mainBtn" class="btn-main" onclick="processOrder()" style="background:#e67e22;">ادفع العمولة وانشر الآن</button>
+        <div id="pInput">
+            <input type="number" id="mealPrice" placeholder="سعر الوجبة الواحدة">
         </div>
+
+        <input type="number" id="mealQty" placeholder="عندك كام وجبة؟">
+
+        <button class="btn-main" onclick="publish()">نشر العرض</button>
     </div>
+</div>
 
-    <script>
-        // تحديث الحسابات تلقائياً
-        document.addEventListener('input', function() {
-            let p = document.getElementById('mealPrice').value || 0;
-            let q = document.getElementById('mealQty').value || 0;
-            let comm = (p * q) * 0.15;
-            document.getElementById('calcComm').innerText = comm.toFixed(2);
-        });
+<script>
+function publish() {
+    const name = document.getElementById('mealName').value;
+    const qty = document.getElementById('mealQty').value;
+    const type = document.getElementById('isFree').value;
+    const price = document.getElementById('mealPrice').value;
 
-        function checkPriceStatus() {
-            let type = document.getElementById('offerType').value;
-            let priceInput = document.getElementById('mealPrice');
-            let box = document.getElementById('commBox');
-            let btn = document.getElementById('mainBtn');
+    if(!name || !qty) { alert("اكتب الاسم والعدد يا محمد"); return; }
 
-            if(type === 'free') {
-                priceInput.value = 0;
-                priceInput.disabled = true;
-                box.style.display = 'none';
-                btn.innerText = "نشر العرض مجاناً فوراً";
-                btn.style.background = "#2ecc71";
-            } else {
-                priceInput.disabled = false;
-                box.style.display = 'block';
-                btn.innerText = "ادفع العمولة وانشر الآن";
-                btn.style.background = "#e67e22";
-            }
-        }
-
-        function processOrder() {
-            let type = document.getElementById('offerType').value;
-            let name = document.getElementById('mealName').value;
-            let qty = document.getElementById('mealQty').value;
-
-            if(!name || !qty) {
-                alert("من فضلك كمل البيانات (الاسم والعدد)");
-                return;
-            }
-
-            if(type === 'paid') {
-                let finalComm = document.getElementById('calcComm').innerText;
-                alert("سيتم تحويلك لدفع " + finalComm + " ج.م عمولة النشر");
-                window.location.href = "pay_commission.html?amount=" + finalComm;
-            } else {
-                alert("شكراً لمساهمتك! تم نشر العرض المجاني.");
-                // كود الحفظ الفعلي هنا
-            }
-        }
-    </script>
-</body>
-</html>
+    if(type === 'paid') {
+        let comm = (price * qty) * 0.15;
+        alert("لازم تدفع عمولة " + comm + " ج.م قبل ما ننشر");
+        location.href = "pay_commission.html?amount=" + comm;
+    } else {
+        alert("تم النشر مجاناً!");
+    }
+}
+</script>
