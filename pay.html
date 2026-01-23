@@ -3,76 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تأكيد الطلب</title>
+    <title>تأكيد الحجز والعمولة</title>
     <style>
-        /* التنسيق الجديد - تطبيق موبايل حقيقي */
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #f7f9fc;
-            font-family: 'Segoe UI', Tahoma, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh; /* يخلي المحتوى في نص الشاشة بالظبط */
-        }
-        .container {
-            width: 90%;
-            max-width: 400px;
-            background: white;
-            padding: 40px 25px;
-            border-radius: 30px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            text-align: center;
-            border-top: 10px solid #00b894; /* اللون الأخضر المميز */
-        }
-        .icon { font-size: 80px; margin-bottom: 20px; }
-        h1 { color: #2d3436; margin: 0; font-size: 28px; }
-        .price-card {
-            background: #f1f2f6;
-            margin: 30px 0;
-            padding: 25px;
-            border-radius: 20px;
-        }
-        .amount {
-            font-size: 50px;
-            font-weight: bold;
-            color: #ff7675; /* لون برتقالي جذاب */
-        }
-        .currency { font-size: 22px; color: #ff7675; }
-        .btn-pay {
-            background: #00b894;
-            color: white;
-            border: none;
-            padding: 20px;
-            width: 100%;
-            border-radius: 18px;
-            font-size: 20px;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 10px 20px rgba(0,184,148,0.25);
-            transition: 0.3s;
-        }
-        .btn-pay:active { transform: scale(0.95); }
-        .footer-note { color: #b2bec3; font-size: 13px; margin-top: 20px; }
+        body { margin: 0; padding: 0; background-color: #f7f9fc; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        .container { width: 90%; max-width: 400px; background: white; padding: 30px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; border-top: 8px solid #00b894; }
+        .price-box { background: #f8f9fa; padding: 15px; border-radius: 15px; margin: 20px 0; border: 1px solid #eee; }
+        .total-pay { font-size: 40px; font-weight: bold; color: #ff7675; }
+        .commission-label { font-size: 14px; color: #636e72; margin-top: 5px; }
+        .btn-pay { background: #00b894; color: white; border: none; padding: 18px; width: 100%; border-radius: 15px; font-size: 18px; font-weight: bold; cursor: pointer; }
+        .details { text-align: right; font-size: 14px; color: #2d3436; margin: 15px 0; }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <div class="icon">🧾</div>
-        <h1>ملخص الفاتورة</h1>
+        <h2>تفاصيل الحجز 🧾</h2>
         
-        <div class="price-card">
-            <span class="amount">15.00</span>
-            <span class="currency">ج.م</span>
-            <p style="margin: 5px 0 0; color: #636e72;">إجمالي المبلغ المستحق</p>
+        <div class="details">
+            <p id="mealPriceText">سعر الوجبة: 0 ج.م</p>
+            <p id="commissionText">عمولة التطبيق (15%): 0 ج.م</p>
+            <hr>
+            <p style="font-weight: bold;">الإجمالي المطلوب دفعه:</p>
         </div>
 
-        <button class="btn-pay" onclick="alert('جاري التحويل لصفحة الدفع الآمن...')">تأكيد الدفع والطلب</button>
-        
-        <p class="footer-note">سيتم إرسال اللوكيشن للبائع فور الدفع</p>
+        <div class="price-box">
+            <span id="finalAmount" class="total-pay">0.00</span>
+            <span style="font-size: 20px; color: #ff7675;"> ج.م</span>
+        </div>
+
+        <button class="btn-pay" onclick="proceedToPayment()">تأكيد ودفع العمولة</button>
+        <p class="commission-label">* العمولة تدعم استمرار مشروعنا لتقليل الهدر.</p>
     </div>
 
+    <script>
+        // دالة لجلب سعر الوجبة من الصفحة السابقة (تخيلية حالياً)
+        // لنفترض أن السعر 100 ج.م للتجربة
+        let originalPrice = 100; 
+        
+        function calculate() {
+            let commission = originalPrice * 0.15;
+            let total;
+
+            if (originalPrice === 0) {
+                // حالة الوجبة المجانية
+                total = commission; 
+                document.getElementById('mealPriceText').innerText = "سعر الوجبة: مجانًا 🎁";
+            } else {
+                // حالة الوجبة بفلوس
+                total = originalPrice + commission;
+                document.getElementById('mealPriceText').innerText = `سعر الوجبة: ${originalPrice} ج.م`;
+            }
+
+            document.getElementById('commissionText').innerText = `عمولة التطبيق (15%): ${commission.toFixed(2)} ج.م`;
+            document.getElementById('finalAmount').innerText = total.toFixed(2);
+        }
+
+        function proceedToPayment() {
+            alert("سيتم توجيهك لدفع العمولة وتفعيل الطلب");
+        }
+
+        window.onload = calculate;
+    </script>
 </body>
 </html>
