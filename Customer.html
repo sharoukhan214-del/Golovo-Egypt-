@@ -1,46 +1,59 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>عروض الوجبات - غولوفو مصر</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-        .meals-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; padding: 20px; }
-        .meal-card { background: white; border-radius: 15px; padding: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); text-align: center; }
-        .meal-card img { width: 100%; border-radius: 10px; height: 150px; object-fit: cover; }
-        .price-tag { color: #e74c3c; font-weight: bold; font-size: 1.2em; }
-        .buy-btn { background: #0984e3; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 10px; }
-    </style>
+    <link rel="stylesheet" href="Style.css">
+    <title>حجز وجبات</title>
 </head>
 <body>
-    <h1 style="text-align: center;">🍲 الوجبات المتاحة الآن</h1>
-    <div id="mealsContainer" class="meals-grid">
-        </div>
+    <div class="card">
+        <h3 id="displayMealName">وجبة فائضة</h3>
+        <p>السعر: <span id="displayPrice">50</span> ج.م</p>
+        <p style="color:red">🔥 متبقي: <span id="stockCount">100</span> وجبة</p>
+        
+        <label>حدد الكمية اللي محتاجها:</label>
+        <input type="number" id="orderQty" value="1" min="1" oninput="updateBill()">
+
+        <div id="billBox" style="background:#eee; padding:15px; border-radius:10px; margin:15px 0;">
+            </div>
+
+        <button onclick="goToPay()" class="btn-main">تأكيد واذهب للدفع</button>
+    </div>
 
     <script>
-        function loadMeals() {
-            const container = document.getElementById('mealsContainer');
-            const savedMeals = JSON.parse(localStorage.getItem('meals')) || [];
+        function updateBill() {
+            const price = parseFloat(document.getElementById('displayPrice').innerText);
+            const qty = parseInt(document.getElementById('orderQty').value);
+            const stock = parseInt(document.getElementById('stockCount').innerText);
+            const box = document.getElementById('billBox');
 
-            if (savedMeals.length === 0) {
-                container.innerHTML = "<p style='text-align:center;'>لا توجد عروض متاحة حالياً.</p>";
-                return;
+            if(qty > stock) { alert("المتاح غير كافي!"); return; }
+
+            let toPayNow = 0; // عمولتك
+            let toPaySeller = 0; // كاش للمطعم
+
+            if(price === 0) {
+                toPayNow = 15 * qty; // 15 جنيه لكل وجبة مجانية
+                toPaySeller = 0;
+            } else {
+                let total = price * qty;
+                let comm = total * 0.15;
+                toPayNow = comm * 2; // عمولة المشتري + المطعم
+                toPaySeller = total - comm; // الصافي للبائع
             }
 
-            container.innerHTML = savedMeals.map(meal => `
-                <div class="meal-card">
-                    <img src="https://via.placeholder.com/250x150?text=الوجبة" alt="meal">
-                    <h3>${meal.name}</h3>
-                    <p>${meal.desc}</p>
-                    <p class="price-tag">${meal.price} ج.م</p>
-                    <button class="buy-btn" onclick="location.href='pay.html'">اطلب الآن</button>
-                </div>
-            `).join('');
+            box.innerHTML = `
+                <p>رسوم حجز للموقع: <b>${toPayNow.toFixed(2)} ج.م</b></p>
+                <p>باقي الحساب للمطعم: <b>${toPaySeller.toFixed(2)} ج.م</b></p>
+            `;
+            localStorage.setItem('finalCommission', toPayNow); // حفظ عشان صفحة الدفع
+            localStorage.setItem('pendingQty', qty);
         }
+        // تشغيل الحسبة لأول مرة
+        updateBill();
 
-        // تشغيل الدالة أول ما الصفحة تفتح
-        window.onload = loadMeals;
+        function goToPay() {
+            window.location.href = "pay.html";
+        }
     </script>
 </body>
 </html>
